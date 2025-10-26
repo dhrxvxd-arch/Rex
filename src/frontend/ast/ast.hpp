@@ -8,6 +8,9 @@
 namespace frontend::ast {
 /// ExprAST - Base class for all expression nodes
 class ExprAST {
+protected:
+  std::vector<std::string> Types;
+
 public:
   virtual ~ExprAST() = default;
 };
@@ -30,11 +33,11 @@ public:
 
 /// BinaryExprAST - Expression class for a binary operator.
 class BinaryExprAST : public ExprAST {
-  char Op;
+  std::string Op;
   std::unique_ptr<ExprAST> LHS, RHS;
 
 public:
-  BinaryExprAST(char Op, std::unique_ptr<ExprAST> LHS,
+  BinaryExprAST(std::string Op, std::unique_ptr<ExprAST> LHS,
                 std::unique_ptr<ExprAST> RHS)
       : Op(Op), LHS(std::move(LHS)), RHS(std::move(RHS)) {}
 };
@@ -46,10 +49,33 @@ class CallExprAST : public ExprAST {
 
 public:
   CallExprAST(const std::string &Callee,
-              std::vector<std::unique_ptr<ExprAST>> Args)
+              std::vector<std::unique_ptr<ExprAST>> &&Args)
       : Callee(Callee), Args(std::move(Args)) {}
 };
+/// PrototypeAST - This class represents the "prototype" for a function,
+/// which captures its name, and its argument names (thus implicitly the number
+/// of arguments the function takes).
+class PrototypeAST {
+  std::string Name;
+  std::vector<std::string> Args;
 
+public:
+  PrototypeAST(const std::string &Name, std::vector<std::string> Args)
+      : Name(Name), Args(std::move(Args)) {}
+
+  const std::string &getName() const { return Name; }
+};
+
+/// FunctionAST - This class represents a function definition itself.
+class FunctionAST {
+  std::unique_ptr<PrototypeAST> Proto;
+  std::unique_ptr<ExprAST> Body;
+
+public:
+  FunctionAST(std::unique_ptr<PrototypeAST> Proto,
+              std::unique_ptr<ExprAST> Body)
+      : Proto(std::move(Proto)), Body(std::move(Body)) {}
+};
 } // namespace frontend::ast
 
 #endif
