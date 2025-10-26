@@ -1,0 +1,36 @@
+# Build directories
+/build/
+
+# CMake generated files
+CMakeFiles/
+CMakeCache.txt
+cmake_install.cmake
+Makefile
+
+# Temporary editor files
+*.swp
+*.swo
+*.bak
+*.tmp
+*.DS_Store
+
+# Compiled binaries
+*.o
+*.obj
+*.exe
+*.out
+*.dll
+*.so
+*.dylib
+
+# Test output
+/tests/output/
+
+# Ignore local configuration
+*.user
+*.log
+*.local
+
+# Ignore Git itself (usually not needed)
+.git/
+
