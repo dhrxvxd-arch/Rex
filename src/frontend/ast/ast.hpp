@@ -12,12 +12,12 @@ public:
   virtual ~ExprAST() = default;
 };
 
-/// NumberExprAST - Expression class for numeric literals like "1.0".
-class NumberExprAST : public ExprAST {
+/// NumberExprAST - Expression class for literals like "1.0".
+class LiteralExprAST : public ExprAST {
   tokens::literal_value_variant_t Val;
 
 public:
-  NumberExprAST(tokens::literal_value_variant_t Val) : Val(Val) {}
+  LiteralExprAST(tokens::literal_value_variant_t Val) : Val(Val) {}
 };
 
 /// VariableExprAST - Expression class for referencing a variable, like "a".
@@ -36,7 +36,7 @@ class BinaryExprAST : public ExprAST {
 public:
   BinaryExprAST(char Op, std::unique_ptr<ExprAST> LHS,
                 std::unique_ptr<ExprAST> RHS)
-  : Op(Op), LHS(std::move(LHS)), RHS(std::move(RHS)) {}
+      : Op(Op), LHS(std::move(LHS)), RHS(std::move(RHS)) {}
 };
 
 /// CallExprAST - Expression class for function calls.
@@ -47,7 +47,7 @@ class CallExprAST : public ExprAST {
 public:
   CallExprAST(const std::string &Callee,
               std::vector<std::unique_ptr<ExprAST>> Args)
-  : Callee(Callee), Args(std::move(Args)) {}
+      : Callee(Callee), Args(std::move(Args)) {}
 };
 
 } // namespace frontend::ast
