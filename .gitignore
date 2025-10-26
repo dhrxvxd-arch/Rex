@@ -12,6 +12,7 @@ Makefile
 *.swo
 *.bak
 *.tmp
+*.kate-swp
 *.DS_Store
 
 # Compiled binaries
